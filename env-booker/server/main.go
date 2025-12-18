@@ -65,6 +65,8 @@ func main() {
 	// Define Endpoints
 	router.GET("/health", healthCheck)
 	router.GET("/envs", getEnvironments)
+	router.POST("/envs/:id/book", bookEnvironment)
+	router.POST("/envs/:id/release", releaseEnvironment)
 
 	// Run the server
 	log.Println("Server starting on :8080")
@@ -100,4 +102,12 @@ func getEnvironments(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, environments)
+}
+
+func bookEnvironment(c *gin.Context) {
+	// TODO: complete this function
+}
+
+func releaseEnvironment(c *gin.Context) {
+	// TODO: complete this function
 }
