@@ -1,0 +1,18 @@
+# 数据库文件 (SQLite 产生的本地数据，不应该传到 Git)
+*.db
+*.db-journal
+
+# 二进制编译文件 (Go 编译生成的执行文件)
+/server/server
+/server/main
+
+# 操作系统临时文件
+.DS_Store
+Thumbs.db
+
+# 环境变量文件
+.env
+
+# 前端依赖 (以后会用到)
+node_modules/
+.next/
