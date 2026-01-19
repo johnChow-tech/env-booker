@@ -12,9 +12,10 @@ import (
 
 // Environment model
 type Environment struct {
-	ID     uint   `json:"id" gorm:"primaryKey"`
-	Name   string `json:"name" gorm:"unique;not null"`
-	Status string `json:"status" gorm:"default:'available'"` // "available" or "occupied"
+	ID        uint           `json:"id" gorm:"primaryKey"`
+	Name      string         `json:"name" gorm:"unique;not null"`
+	Status    string         `json:"status" gorm:"default:'available'"` // "available" or "occupied"
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 }
 
 // Booking model
@@ -30,6 +31,12 @@ type Booking struct {
 type BookingRequest struct {
 	User     string `json:"user" binding:"required"`             // 必填
 	Duration int    `json:"duration_minutes" binding:"required"` // 必填
+}
+
+// AddEnvRequest 相当于 TS 的 CreateEnvironmentDto
+// 我们只允许用户传 Name，状态默认都是 available
+type AddEnvRequest struct {
+	Name string `json:"name" binding:"required"`
 }
 
 var DB *gorm.DB
@@ -72,8 +79,20 @@ func main() {
 	// Define Endpoints
 	router.GET("/health", healthCheck)
 	router.GET("/envs", getEnvironments)
+	router.GET("/bookings", getBookings)
 	router.POST("/envs/:id/book", bookEnvironment)
 	router.POST("/envs/:id/release", releaseEnvironment)
+
+	// === 管理员专用接口 (Private / Admin Only) ===
+	// 我们创建一个路由组，并使用 BasicAuth 中间件保护它
+	// gin.Accounts 是一个 map，键是用户名，值是密码
+	adminGroup := router.Group("/", gin.BasicAuth(gin.Accounts{
+		"admin": "123456", // 用户名: admin, 密码: 123456
+	}))
+
+	// 把增删接口移到这个 adminGroup 下
+	adminGroup.POST("/envs", addEnvironment)
+	adminGroup.DELETE("/envs/:id", deleteEnvironment)
 
 	// Run the server
 	log.Println("Server starting on :8080")
@@ -109,6 +128,29 @@ func getEnvironments(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, environments)
+}
+
+func addEnvironment(c *gin.Context) {
+	var req AddEnvRequest
+	// 1. 校验参数
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// 2. 创建实例
+	env := Environment{
+		Name:   req.Name,
+		Status: "available",
+	}
+
+	// 3. 写入数据库
+	if result := DB.Create(&env); result.Error != nil {
+		c.JSON(http.StatusConflict, gin.H{"error": "Environment name likely exists"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, env)
 }
 
 func bookEnvironment(c *gin.Context) {
@@ -184,4 +226,49 @@ func releaseEnvironment(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Environment released", "env": env.Name})
+}
+
+func deleteEnvironment(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+
+	var env Environment
+	// 1. 查找是否存在
+	// 注意：一旦开启软删除，GORM 默认只查 "DeletedAt IS NULL" 的数据
+	if result := DB.First(&env, id); result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Environment not found"})
+		return
+	}
+
+	// 2. 业务保护：占用中不可删
+	if env.Status == "occupied" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Cannot delete an occupied environment"})
+		return
+	}
+
+	// 3. 执行删除
+	// 因为结构体里有 gorm.DeletedAt，这会自动变成软删除 (Soft Delete)
+	if result := DB.Delete(&env); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Environment deleted (softly)"})
+}
+
+func getBookings(c *gin.Context) {
+	var bookings []Booking
+
+	// Preload("Environment") 相当于 TypeORM 的 relations: ['environment']
+	// 它会自动把关联的 Environment 数据填充到 Booking 结构体里
+	if result := DB.Preload("Environment").Find(&bookings); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, bookings)
 }
