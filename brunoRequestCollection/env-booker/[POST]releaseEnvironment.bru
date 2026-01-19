@@ -1,0 +1,15 @@
+meta {
+  name: [POST]releaseEnvironment
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/envs/1/release
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}

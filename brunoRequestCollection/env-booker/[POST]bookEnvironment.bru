@@ -1,0 +1,22 @@
+meta {
+  name: [POST]bookEnvironment
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/envs/1/book
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "user": "tom",
+    "duration_minutes": 60
+  }
+}

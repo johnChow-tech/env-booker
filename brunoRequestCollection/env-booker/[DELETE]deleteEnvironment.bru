@@ -1,0 +1,16 @@
+meta {
+  name: [DELETE] Remove Environment
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:8080/envs/4
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: admin
+  password: 123456
+}

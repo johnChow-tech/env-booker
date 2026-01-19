@@ -1,0 +1,26 @@
+meta {
+  name: [POST] Add Environment
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/envs
+  body: json
+  auth: basic
+}
+
+auth:basic {
+  username: admin
+  password: 123456
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "New-GPU-Server-01"
+  }
+}
