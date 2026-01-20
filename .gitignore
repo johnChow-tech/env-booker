@@ -1,18 +1,47 @@
-# 数据库文件 (SQLite 产生的本地数据，不应该传到 Git)
+# =========================
+# Global / OS (全局通用)
+# =========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# =========================
+# Server (Go Backend)
+# =========================
+# 数据库文件
 *.db
 *.db-journal
 
-# 二进制编译文件 (Go 编译生成的执行文件)
-/server/server
+# Go 编译产物 (忽略 server 目录下的二进制文件)
 /server/main
+/server/main.exe
+/server/server
+/server/server.exe
 
-# 操作系统临时文件
-.DS_Store
-Thumbs.db
-
-# 环境变量文件
-.env
-
-# 前端依赖 (以后会用到)
+# =========================
+# Client (Next.js Frontend)
+# =========================
+# 依赖包 (所有目录下的 node_modules 都会被忽略)
 node_modules/
+
+# Next.js 编译产物
 .next/
+out/
+build/
+dist/
+
+# 环境变量 (不要提交密钥！)
+.env
+.env*.local
+
+# 调试日志
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# TypeScript 增量构建缓存
+*.tsbuildinfo
+next-env.d.ts
