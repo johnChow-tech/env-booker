@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import {
-  Table, Tag, Button, Layout, Typography, Space,
-  message, Card, Modal, Form, Input, InputNumber, Popconfirm
+  Table, Tag, Button, Layout, Typography, Space, App,
+  Card, Modal, Form, Input, InputNumber, Popconfirm
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Environment } from '@/types';
@@ -23,6 +23,7 @@ interface BookingFormValues {
 
 export default function Home() {
   // === 状态管理 ===
+  const { message, modal } = App.useApp();
   const [data, setData] = useState<Environment[]>([]);
   const [loading, setLoading] = useState(false);
 
