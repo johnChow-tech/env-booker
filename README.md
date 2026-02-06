@@ -125,5 +125,3 @@ go test -v
 * [ ] コンテナ化 (Server と Client 用の Dockerfile 作成)
 * [ ] Kubernetes デプロイメントマニフェストの作成
 * [ ] CI/CD パイプラインの統合 (GitHub Actions)
-
-```
