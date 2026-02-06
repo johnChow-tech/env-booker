@@ -1,6 +1,16 @@
 import { test, expect } from '@playwright/test';
 
+// 通用常量,方便重复使用以及维护脚本
+const HOMEPAGE = {
+  TITLE: 'Dashboard',
+};
+
 test.describe('Environment Booking Flow', () => {
+  // NOTE: typeScript的四种钩子函数
+  // test.beforeEach(() => {});
+  // test.beforeAll(() => {});
+  // test.afterAll(() => {});
+  // test.afterEach(() => {});
   test.beforeEach(async ({ page }) => {
     // 确保每次都从首页开始
     await page.goto('http://localhost:3000');
@@ -60,5 +70,36 @@ test.describe('Environment Booking Flow', () => {
     // 6. 验证释放成功
     // 状态应该变回 AVAILABLE
     await expect(bookedRow.getByText('AVAILABLE')).toBeVisible();
+  });
+
+  test('Happy Path:预约并释放第一个环境', async ({ page }) => {
+    // 1. 确认Page已被加载
+    // await: 异步等待
+    // except: 断言
+    // await expect(page.getByTitle('Dashboard')).toBeVisible();
+    // getByRole('heading', { name: <xxx> })):精确查找，必须是标题元素 (h1-h6 或 role="heading")
+    await expect(page.getByRole('heading', { name: HOMEPAGE.TITLE })).toBeVisible();
+
+    // 确认存在目标环境QA-cluster-1
+    
+    // 确认目标环境的status是AVAILABLE
+    // 确认Release按钮存在且不可点击
+    // 确认Book按钮存在并点击
+    // 确认"确认卡片"
+    // 卡片标题为"Book Environment: QA-Cluster-1"
+    // 卡片中有输入栏"User Name",默认值为空
+    // 输入test_01
+    // 卡片中有输入栏"Duration (Minutes)",默认值为60
+    // 输入100
+    // 点击Confirm Booking(这里应该Mock)
+    // 确认弹窗
+    // 确认Status是OCCUPIED
+    // 确认Book按钮存在且不可点击
+    // 确认Release按钮存在并点击
+    // 点击Yes
+    // 确认弹窗
+    // 确认目标环境的status是AVAILABLE
+    // 确认Release按钮存在且不可点击
+    // 确认Book按钮存在并点击
   });
 });
