@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { HOMEPAGE } from './utils/constants';
-import { MOCKING } from './utils/mockData';
+import { HOMEPAGE } from '../utils/constants';
+import { MOCKING } from '../utils/mockData';
 
 
 test.describe('(Mock) Environment Booking and release Flow', () => {
