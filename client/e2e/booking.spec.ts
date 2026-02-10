@@ -3,8 +3,6 @@ import { HOMEPAGE } from './utils/constants';
 import { MOCKING } from './utils/mockData';
 
 
-
-
 test.describe('(Mock) Environment Booking and release Flow', () => {
   // mocking
   type Record = { id: number; name: string; status: string };
