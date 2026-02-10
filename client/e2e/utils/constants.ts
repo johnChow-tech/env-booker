@@ -1,8 +1,10 @@
 // 通用常量,方便重复使用以及维护脚本
 export const HOMEPAGE = {
+  URL: 'http://localhost:3000',
   TITLE: 'Dashboard',
   STATUS_AVAILABLE: 'AVAILABLE',
   STATUS_OCCUPIED: 'OCCUPIED',
+  BUTTON_REFRESH: 'Refresh',
   BUTTON_BOOK: 'Book',
   BUTTON_RELEASE: 'Release',
   DIALOG_TITLE_PREFIX: 'Book Environment: ',

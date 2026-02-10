@@ -2,8 +2,10 @@ import { test, expect } from '@playwright/test';
 import { HOMEPAGE } from '../utils/constants';
 import { MOCKING } from '../utils/mockData';
 
-
 test.describe('(Mock) Environment Booking and release Flow', () => {
+  // TODO 使用准备好的POM来重构测试用例
+  // TODO 将自动化测试实装到CI/CD中
+  // TODO 思考如何在CI/CD的时候输出测试报告
   // mocking
   type Record = { id: number; name: string; status: string };
   let dbState: Record[];
@@ -56,7 +58,7 @@ test.describe('(Mock) Environment Booking and release Flow', () => {
     await expect(page.getByRole('heading', { name: HOMEPAGE.TITLE })).toBeVisible();
 
     // 确认存在目标环境Mock-Env-01
-    const mockEnv = page.getByRole('row',{name:MOCKING.ENV_NAME})
+    const mockEnv = page.getByRole('row', { name: MOCKING.ENV_NAME });
     await expect(mockEnv).toBeVisible();
 
     // ✅ 写法 A (针对纯文本变量)：
