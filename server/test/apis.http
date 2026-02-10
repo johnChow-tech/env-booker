@@ -1,0 +1,39 @@
+### ----------------全局变量----------------
+@baseUrl = http://localhost:8080
+@user = admin
+@pass = 123456
+
+### [GET] 获取所有环境列表
+GET {{baseUrl}}/envs/
+
+### [GET] 获取所有预约信息
+GET {{baseUrl}}/bookings
+
+### [POST] 预约环境
+# 局部变量放在请求上方，方便快速修改 ID
+@bookEnv = 2
+POST {{baseUrl}}/envs/{{bookEnv}}/book
+Content-Type: application/json
+
+{
+    "user": "tom",
+    "duration_minutes": 60
+}
+
+### [POST] 释放环境
+@releaseEnv = 1
+POST {{baseUrl}}/envs/{{releaseEnv}}/release
+
+### [POST] 添加新环境 (需要管理员权限)
+POST {{baseUrl}}/envs
+Content-Type: application/json
+Authorization: Basic {{user}} {{pass}}
+
+{
+    "name": "New-GPU-Server-01"
+}
+
+### [DELETE] 删除环境
+@deleteEnv = 4
+DELETE {{baseUrl}}/envs/{{deleteEnv}}
+Authorization: Basic {{user}} {{pass}}
