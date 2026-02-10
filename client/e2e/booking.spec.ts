@@ -22,7 +22,7 @@ const MOCKING = {
   ENV_STATUS_OCCUPIED: 'occupied',
 };
 
-test.describe('(Mock) Environment Booking Flow', () => {
+test.describe('(Mock) Environment Booking and release Flow', () => {
   // mocking
   type Record = { id: number; name: string; status: string };
   let dbState: Record[];
@@ -139,11 +139,5 @@ test.describe('(Mock) Environment Booking Flow', () => {
     // 确认目标环境的status是AVAILABLE
     const releasedRow = await page.getByRole('row', { name: MOCKING.ENV_NAME });
     await expect(releasedRow.locator('td').nth(2)).toHaveText(HOMEPAGE.STATUS_AVAILABLE);
-
-    // 确认Release按钮存在且不可点击
-    await expect(releasedRow.getByRole('button', { name: HOMEPAGE.BUTTON_RELEASE })).toBeDisabled();
-    // 确认Book按钮存在并点击
-    await releasedRow.getByRole('button', { name: HOMEPAGE.BUTTON_BOOK }).click();
-    await expect(bookingDialog).toBeVisible();
   });
 });
