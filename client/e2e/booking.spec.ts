@@ -1,26 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { HOMEPAGE } from './utils/constants';
+import { MOCKING } from './utils/mockData';
 
-// 通用常量,方便重复使用以及维护脚本
-const HOMEPAGE = {
-  TITLE: 'Dashboard',
-  STATUS_AVAILABLE: 'AVAILABLE',
-  STATUS_OCCUPIED: 'OCCUPIED',
-  BUTTON_BOOK: 'Book',
-  BUTTON_RELEASE: 'Release',
-  DIALOG_TITLE_PREFIX: 'Book Environment: ',
-  DIALOG_LABEL_USER_NAME: 'User Name',
-  DIALOG_LABEL_DURATION: 'Duration (Minutes)',
-  DIALOG_BUTTON_BOOK: 'Confirm Booking',
-  DIALOG_BUTTON_CANCEL: 'Cancel',
-  TOAST_BOOK_SUCCESS_PREFIX: 'Successfully booked: ',
-};
 
-const MOCKING = {
-  ENV_ID: 1,
-  ENV_NAME: 'Mock-Env-01',
-  ENV_STATUS_AVAILABLE: 'available',
-  ENV_STATUS_OCCUPIED: 'occupied',
-};
+
 
 test.describe('(Mock) Environment Booking and release Flow', () => {
   // mocking
