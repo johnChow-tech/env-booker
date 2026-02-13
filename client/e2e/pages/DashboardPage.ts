@@ -70,7 +70,7 @@ export class DashboardPage {
     await bookingDialog.submitBooking(userName, duration);
 
     const toastMessage = `${TOAST.BOOK_SUCCESS_PREFIX}${envName}`;
-    await this.toast.vertify(toastMessage);
+    await this.toast.verify(toastMessage);
     await envRow.assertStatus(HOMEPAGE.STATUS_OCCUPIED); //这里需要获取一个新的EnvironmentRow吗？
     await this.toast.waitForHidden();
   }
@@ -87,7 +87,7 @@ export class DashboardPage {
     await popover.assertContent();
     await popover.clickYes();
 
-    await this.toast.vertify(TOAST.RELEASE_SUCCESS);
+    await this.toast.verify(TOAST.RELEASE_SUCCESS);
     await envRow.assertStatus(HOMEPAGE.STATUS_AVAILABLE);
     await this.toast.waitForHidden();
   }

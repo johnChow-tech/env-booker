@@ -34,7 +34,7 @@ export class Toast {
     return this.page.locator('.ant-message');
   }
 
-  async vertify(message: string) {
+  async verify(message: string) {
     const toast = this.container.locator('.ant-message-notice-content').filter({ hasText: message });
     await expect(toast).toBeVisible();
   }
