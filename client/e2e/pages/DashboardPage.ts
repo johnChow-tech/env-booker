@@ -30,6 +30,10 @@ export class DashboardPage {
     await expect(this.heading).toHaveText(HOMEPAGE.TITLE);
     await expect(this.refreshBtn).toBeVisible();
   }
+  getEnvironmentRow(envName: string): EnvironmentRow {
+    const rowLocator = this.page.getByRole('row', { name: envName });
+    return new EnvironmentRow(rowLocator);
+  }
   // TODO:预约环境
   // TODO:释放环境
 }
