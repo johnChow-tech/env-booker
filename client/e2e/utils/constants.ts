@@ -4,13 +4,29 @@ export const HOMEPAGE = {
   TITLE: 'Dashboard',
   STATUS_AVAILABLE: 'AVAILABLE',
   STATUS_OCCUPIED: 'OCCUPIED',
+  // buttons
   BUTTON_REFRESH: 'Refresh',
   BUTTON_BOOK: 'Book',
   BUTTON_RELEASE: 'Release',
-  DIALOG_TITLE_PREFIX: 'Book Environment: ',
-  DIALOG_LABEL_USER_NAME: 'User Name',
-  DIALOG_LABEL_DURATION: 'Duration (Minutes)',
-  DIALOG_BUTTON_BOOK: 'Confirm Booking',
-  DIALOG_BUTTON_CANCEL: 'Cancel',
-  TOAST_BOOK_SUCCESS_PREFIX: 'Successfully booked: ',
+};
+
+export const DIALOG = {
+  TITLE_PREFIX: 'Book Environment: ',
+  LABEL_USER_NAME: 'User Name',
+  LABEL_DURATION: 'Duration (Minutes)',
+  BUTTON_CLOSE: 'close',
+  BUTTON_CONFIRM: 'Confirm Booking',
+  BUTTON_CANCEL: 'Cancel',
+};
+
+export const POPOVER = {
+  TITLE: 'Release Environment',
+  DESCRIPTION: 'Are you sure you want to release this environment?',
+  BUTTON_NO: 'No',
+  BUTTON_YES: 'Yes',
+};
+
+export const TOAST = {
+  BOOK_SUCCESS_PREFIX: 'Successfully booked: ',
+  RELEASE_SUCCESS: 'Environment released',
 };
