@@ -1,11 +1,11 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { HOMEPAGE } from '../utils/constants';
 import { MOCKING } from '../utils/mockData';
 import { DashboardPage } from '../pages/DashboardPage';
 
+// TODO 将自动化测试实装到CI/CD中
+// TODO 思考如何在CI/CD的时候输出测试报告
 test.describe('(Mock) Environment Booking and release Flow', () => {
-  // TODO 将自动化测试实装到CI/CD中
-  // TODO 思考如何在CI/CD的时候输出测试报告
   // mocking
   type Record = { id: number; name: string; status: string };
   let dbState: Record[];
@@ -59,6 +59,53 @@ test.describe('(Mock) Environment Booking and release Flow', () => {
 });
 
 test.describe('Environment Booking and release Flow', () => {
+  let envName: string;
+  let envId: number;
+
+  // 1. テスト開始前：API を叩いて「専用の環境」を作る
+  test.beforeAll(async ({ request }) => {
+    // ランダムな名前を生成 (衝突防止)
+    envName = `E2E-Test-Env-${Date.now()}`;
+
+    // 管理者権限で作成 (server/main.go の Basic Auth: admin/123456)
+    const response = await request.post('http://localhost:8080/envs', {
+      headers: {
+        Authorization: 'Basic ' + Buffer.from('admin:123456').toString('base64'),
+      },
+      data: {
+        name: envName,
+      },
+    });
+
+    // 作成された ID を保存（削除用）
+    const body = await response.json();
+    envId = body.id;
+
+    // 作成できたか確認
+    expect(response.ok()).toBeTruthy();
+  });
+
+  // 2. テスト実行：作った環境に対して読み書きする
+  test('Happy Path: 予約と解放 (Self-Contained)', async ({ page }) => {
+    const dashboard = new DashboardPage(page, HOMEPAGE.URL);
+    await dashboard.goto();
+
+    // さっき作った環境を操作する
+    await dashboard.book(envName, 'E2E-User', '60');
+    await dashboard.release(envName);
+  });
+
+  // 3. テスト終了後：ゴミ掃除 (Teardown)
+  test.afterAll(async ({ request }) => {
+    if (envId) {
+      await request.delete(`http://localhost:8080/envs/${envId}`, {
+        headers: {
+          Authorization: 'Basic ' + Buffer.from('admin:123456').toString('base64'),
+        },
+      });
+    }
+  });
+
   test('Happy Path:预约并释放第一个环境', async ({ page }) => {
     const dashboard = new DashboardPage(page, HOMEPAGE.URL);
     await dashboard.goto();
