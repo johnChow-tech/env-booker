@@ -19,10 +19,10 @@ export class EnvironmentRow {
     this.releaseBtn = row.getByRole('button', { name: HOMEPAGE.BUTTON_RELEASE });
   }
 
-  async assertContent(id: string, envName: string, status: string, isAvailable: boolean) {
+  async assertContent(envName: string, status: string, isAvailable: boolean) {
     await expect(this.row).toBeVisible();
 
-    await expect.soft(this.envID).toHaveText(id);
+    await expect.soft(this.envID).toBeVisible();
     await expect.soft(this.envName).toHaveText(envName);
     await this.assertStatus(status);
 

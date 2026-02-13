@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 /**
  * 📝 Architecture Note (设计笔记):
@@ -40,6 +40,6 @@ export class Toast {
   }
 
   async waitForHidden() {
-    await expect(this.container).toBeHidden();
+    await expect(this.container.locator('.ant-message-notice')).toHaveCount(0);
   }
 }

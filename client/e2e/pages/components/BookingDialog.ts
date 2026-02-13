@@ -33,7 +33,7 @@ export class BookingDialog {
   async assertContent(dialogTitle: string) {
     await expect(this.dialog).toBeVisible();
 
-    await expect.soft(this.dialog.getByRole('heading', { name: dialogTitle })).toBeVisible();
+    await expect.soft(this.dialog.locator('.ant-modal-title')).toHaveText(dialogTitle);
     await expect.soft(this.userNameInput).toBeEditable();
     await expect.soft(this.durationInput).toBeEditable();
 
