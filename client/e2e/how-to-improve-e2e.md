@@ -183,4 +183,4 @@ await expect(row.getByTestId('env-id')).toHaveText('1');
 
 - [x] **Level 1 (当前)**: 脚本式写法，逻辑通顺，有 Mock。 
 - [x] **Level 2 (推荐)**: 把 `HOMEPAGE` 和 `MOCKING` 这种常量提取到单独的 `constants.ts` 文件中，不要混在 spec 文件里。
-- [ ] **Level 3 (强烈推荐)**: 尝试写一个简单的 `DashboardPage` 类（POM），把 `book()` 和 `release()` 的动作封装进去。这会让你的测试代码行数减少一半，且可读性极高。
+- [x] **Level 3 (强烈推荐)**: 尝试写一个简单的 `DashboardPage` 类（POM），把 `book()` 和 `release()` 的动作封装进去。这会让你的测试代码行数减少一半，且可读性极高。
