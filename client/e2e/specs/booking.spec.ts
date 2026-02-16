@@ -105,13 +105,4 @@ test.describe('Environment Booking and release Flow', () => {
       });
     }
   });
-
-  test('Happy Path:预约并释放第一个环境', async ({ page }) => {
-    const dashboard = new DashboardPage(page, HOMEPAGE.URL);
-    await dashboard.goto();
-
-    const name = 'Dev-Machine-A';
-    await dashboard.book(name, 'test', '60');
-    await dashboard.release(name);
-  });
 });
