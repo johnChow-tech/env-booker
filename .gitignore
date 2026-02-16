@@ -8,22 +8,36 @@ Thumbs.db
 *.log
 
 # =========================
-# Server (Go Backend)
+# Server (Python / Django Backend)
 # =========================
-# 数据库文件
+# Python 编译的字节码和缓存文件 (最容易搞脏代码库的罪魁祸首)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 虚拟环境目录 (涵盖常见的虚拟环境命名)
+.venv/
+venv/
+env/
+ENV/
+
+# Django 本地数据库文件 (测试数据千万别提交)
+db.sqlite3
+*.sqlite3
 *.db
 *.db-journal
 
-# Go 编译产物 (忽略 server 目录下的二进制文件)
-/server/main
-/server/main.exe
-/server/server
-/server/server.exe
+# Django 用户上传的媒体文件目录 (如果有的话)
+media/
+
+# Ruff 格式化和 Pytest 测试的缓存
+.ruff_cache/
+.pytest_cache/
 
 # =========================
 # Client (Next.js Frontend)
 # =========================
-# 依赖包 (所有目录下的 node_modules 都会被忽略)
+# 依赖包
 node_modules/
 
 # Next.js 编译产物
